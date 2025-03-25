@@ -1,49 +1,39 @@
 @R1
 D=M
-@STORE_ZERO
+@INVALID_ARRAY
 D;JLE
+
+@R0
+D=M
+@ptr
+M=D
 
 @R2
 M=0
 
-@R0
-D=M
-@R3
-M=D
-
-@R1
-D=M
-@R4
-M=D
-
-(LOOP)
-@R4
-D=M
-@END_LOOP
-D;JEQ
-
-@R3
+(SUM_LOOP)
+@ptr
 A=M
 D=M
 @R2
-M=M+D
+M=D+M
 
-@R3
-M=M+1
+@ptr
+M=M+2
 
-@R4
+@R1
 M=M-1
+D=M
+@SUM_LOOP
+D;JGT
 
-@LOOP
+@END
 0;JMP
 
-(STORE_ZERO)
-@0
-D=A
+(INVALID_ARRAY)
 @R2
-M=D
+M=0
 
-(END_LOOP)
 (END)
 @END
 0;JMP
