@@ -1,44 +1,43 @@
-// Check if R1 (length) is ≤ 0
 @R1
 D=M
 @STORE_ZERO
-D;JLE       // If length ≤ 0, return 0
+D;JLE       // If R1 ≤ 0, store 0 in R2 and exit
 
-// Initialize pointer to array start (R0)
-@R0
-D=M
-@ptr
-M=D         // ptr = array base address
-
-// Store counter in a separate register (R3)
-@R1
-D=M
-@counter
-M=D         // counter = R1 (number of elements)
-
-// Initialize sum to 0
+// Initialize sum = 0
 @sum
 M=0
 
+// Store array starting address in R3 (to avoid modifying R0)
+@R0
+D=M
+@R3
+M=D         // R3 = base address of array
+
+// Store counter in R4 (to avoid modifying R1)
+@R1
+D=M
+@R4
+M=D         // R4 = number of elements
+
 (LOOP)
-@counter
+@R4
 D=M
 @END_LOOP
 D;JLE       // If counter ≤ 0, exit loop
 
-// Load current array value
-@ptr
-A=M         // Load array address
+// Load the current array value
+@R3
+A=M         // Load memory at address stored in R3
 D=M         // D = current element
 @sum
 M=M+D       // sum += current element
 
-// Move to next element
-@ptr
-M=M+1       // ptr++
+// Move to the next element (increment pointer)
+@R3
+M=M+1       // R3 = R3 + 1 (move to next array item)
 
 // Decrement counter
-@counter
+@R4
 M=M-1
 
 @LOOP
@@ -50,14 +49,15 @@ D=M
 @STORE
 0;JMP
 
+// Case where R1 was ≤ 0, store 0 in R2
 (STORE_ZERO)
 @0
-D=A         // Set sum = 0 if R1 ≤ 0
+D=A
 
 (STORE)
 @R2
-M=D         // Store sum result in R2
+M=D         // Store the computed sum in R2
 
 (END)
 @END
-0;JMP       // Infinite loop
+0;JMP 
