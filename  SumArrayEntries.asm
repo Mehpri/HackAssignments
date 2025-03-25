@@ -19,7 +19,7 @@ D=M
 M=D+M
 
 @ptr
-M=M+2
+M=M+1
 
 @R1
 M=M-1
