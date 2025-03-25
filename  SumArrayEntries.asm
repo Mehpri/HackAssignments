@@ -1,58 +1,46 @@
 @R1
 D=M
 @ZERO_CASE
-D;JLE      // If R1 <= 0, set sum = 0
+D;JLE      // Handle length <= 0 case
 
-// Initialize pointer and counter
 @R0
 D=M
 @ptr
-M=D        // Store array base address
+M=D        // Initialize pointer to array start
 @R1
 D=M
-@counter
-M=D        // Store element count in counter
-
+@n
+M=D        // Initialize counter
 @sum
-M=0        // Initialize sum to 0
+M=0        // Initialize sum
 
 (LOOP)
-@counter
-D=M
-@END_LOOP
-D;JLE      // If counter <= 0, end loop
-
-// Load current array value and add to sum
 @ptr
-A=M        // Get array address
+A=M        // Get current array address
 D=M        // Load current element
 @sum
-M=M+D      // sum += current element
+M=M+D      // Add to sum
 
-// Move pointer to next element
 @ptr
-M=M+1
-
-// Decrement counter
-@counter
-M=M-1
-
+M=M+1      // Move to next element
+@n
+M=M-1      // Decrement counter
+D=M
 @LOOP
-0;JMP      // Repeat until counter = 0
+D;JGT      // Continue if counter > 0
 
-(END_LOOP)
 @sum
 D=M
 @STORE
-0;JMP      // Store the sum
+0;JMP
 
 (ZERO_CASE)
 @0
-D=A        // Set sum = 0 if R1 <= 0
+D=A
 
 (STORE)
 @R2
-M=D        // Store result in R2
+M=D        // Store result
 
 (END)
 @END
