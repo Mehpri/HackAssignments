@@ -1,45 +1,43 @@
 @R0
 D=M
-@POSITIVE
-D;JGE     // If x >= 0, jump to POSITIVE
+@positive
+D;JGE
 
-// Negative case
 @R2
-M=1       // Set R2 flag (indicates x was negative)
+M=1
 
 @32768    
-D=D+A     // Check if x == -32768 (D = x + 32768)
-@OVERFLOW
-D;JEQ     // If x is -32768, handle overflow case
+D=D+A
+@overflow
+D;JEQ
 
-// Safe to negate x
 @R0
 D=M
-D=-D      // Compute absolute value
+D=-D
 @R3
-M=0       // No overflow
-@STORE
+M=0
+@store
 0;JMP
 
-(OVERFLOW)
+(overflow)
 @R3
-M=1       // Overflow flag set
+M=1
 @R0
-D=M       // Keep x unchanged
-@STORE
+D=M
+@store
 0;JMP
 
-(POSITIVE)
+(positive)
 @R2
-M=0       // Set R2 flag (indicates x was positive)
+M=0
 @R3
-M=0       // No overflow
+M=0
 @R0
-D=M       // Keep x as is
+D=M
 
-(STORE)
+(store)
 @R1
-M=D       // Store absolute value in R1
-(END)
-@END
+M=D
+(end)
+@end
 0;JMP

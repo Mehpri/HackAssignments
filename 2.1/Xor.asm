@@ -1,21 +1,20 @@
 @R0
-D=M      // D = x
+D=M     
 @R1
-D=D|M    // D = x OR y
+D=D|M    
 @temp
-M=D      // temp = x OR y
+M=D      
 
 @R0
-D=M      // D = x
+D=M      
 @R1
-D=D&M    // D = x AND y
-D=!D     // D = NOT (x AND y)
+D=D&M    
+D=!D     
 
 @temp
-D=D&M    // D = (x OR y) AND (NOT (x AND y)) → x XOR y
-
+D=D&M    
 @R2
-M=D      // Store result in R2
-(END)
-@END
+M=D      
+(end)
+@end
 0;JMP
