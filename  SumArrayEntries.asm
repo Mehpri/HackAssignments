@@ -1,6 +1,6 @@
 @R1
 D=M
-@INVALID_ARRAY
+@invalid
 D;JLE
 
 @R0
@@ -11,7 +11,7 @@ M=D
 @R2
 M=0
 
-(SUM_LOOP)
+(loop)
 @ptr
 A=M
 D=M
@@ -24,16 +24,16 @@ M=M+1
 @R1
 M=M-1
 D=M
-@SUM_LOOP
+@loop
 D;JGT
 
-@END
+@exit
 0;JMP
 
-(INVALID_ARRAY)
+(invalid)
 @R2
 M=0
 
-(END)
-@END
+(exit)
+@exit
 0;JMP

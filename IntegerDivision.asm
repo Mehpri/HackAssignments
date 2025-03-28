@@ -1,125 +1,118 @@
 @R0
 D=M
 @x
-M=D         // Store x
+M=D
 @R1
 D=M
 @y
-M=D         // Store y
+M=D
 
 @R4
-M=0         // Valid flag (0 by default)
+M=0
 
-// Check for division by zero
 @y
 D=M
-@INVALID
-D;JEQ      // If y == 0, jump to INVALID case
+@invalid
+D;JEQ
 
-// Track sign of quotient
 @sign
-M=0        // Sign tracker (0=positive, 1=negative)
+M=0
 
-// Make x positive, update sign
 @x
 D=M
-@X_POS
-D;JGE      // If x >= 0, skip negation
+@x_pos
+D;JGE
 @x
-M=-M       // x = -x
+M=-M
 @sign
-M=!M       // Flip sign bit
+M=!M
 
-(X_POS)
-// Make y positive, update sign
+(x_pos)
 @y
 D=M
-@Y_POS
-D;JGE      // If y >= 0, skip negation
+@y_pos
+D;JGE
 @y
-M=-M       // y = -y
+M=-M
 @sign
-M=!M       // Flip sign bit
+M=!M
 
-(Y_POS)
-// Initialize quotient and remainder
+(y_pos)
 @quotient
 M=0
 @remainder
 M=0
 
-(LOOP)
+(loop)
 @x
 D=M
 @y
 D=D-M
-@END_DIV
-D;JLT     // If x < y, exit loop
+@end_div
+D;JLT
 
 @x
-M=D       // x = x - y
+M=D
 @quotient
-M=M+1     // quotient++
+M=M+1
 
-@LOOP
-0;JMP     // Repeat until x < y
+@loop
+0;JMP
 
-(END_DIV)
+(end_div)
 @x
 D=M
 @remainder
-M=D       // Store remainder
+M=D
 
-// Apply sign to quotient
 @sign
 D=M
-@MAKE_NEG
-D;JNE     // If sign == 1, make quotient negative
+@make_neg
+D;JNE
 
 @quotient
 D=M
-@STORE_Q
+@store_q
 0;JMP
 
-(MAKE_NEG)
+(make_neg)
 @quotient
 D=-M
 
-(STORE_Q)
+(store_q)
 @R2
-M=D       // Store quotient
+M=D
 
-// Adjust remainder sign to match original x
 @R0
 D=M
-@ADJ_REM
-D;JGE     // If original x >= 0, skip negation
+@adj_rem
+D;JGE
 
 @remainder
 M=-M
 
-(ADJ_REM)
+(adj_rem)
 @remainder
 D=M
 @R3
-M=D       // Store remainder
+M=D
 @R4
-M=0       // Valid division flag (0)
-@END
+M=0
+@end
 0;JMP
 
-(INVALID)
+(invalid)
 @R4
-M=1       // Invalid division (y = 0)
+M=1
 @R0
 D=M
 @R2
-M=D       // Store x in R2
+M=D
 @R1
 D=M
 @R3
-M=D       // Store y in R3
+M=D
 
-(END)
-@END
+(end)
+@end
 0;JMP
