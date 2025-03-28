@@ -1,39 +1,39 @@
 @R1
 D=M
-@invalid
+@check_empty
 D;JLE
 
 @R0
 D=M
-@ptr
+@current
 M=D
 
 @R2
 M=0
 
-(loop)
-@ptr
+(main_loop)
+@current
 A=M
 D=M
 @R2
 M=D+M
 
-@ptr
+@current
 M=M+1
 
 @R1
 M=M-1
 D=M
-@loop
+@main_loop
 D;JGT
 
-@exit
+@finish
 0;JMP
 
-(invalid)
+(check_empty)
 @R2
 M=0
 
-(exit)
-@exit
+(finish)
+@finish
 0;JMP
